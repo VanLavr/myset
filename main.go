@@ -49,6 +49,20 @@ func (s MySet[E]) Delete(member E) {
 	delete(s, member)
 }
 
+func (s MySet[E]) Intersect(AnotherSet MySet[E]) MySet[E] {
+	result := make(MySet[E])
+
+	for k := range s {
+		for j := range AnotherSet {
+			if k == j {
+				result.Add(k)
+			}
+		}
+	}
+
+	return result
+}
+
 func main() {
 	testWithints := NewSet(1, 3, 5)
 	testWithbools := NewSet(true, false, false)
@@ -63,4 +77,10 @@ func main() {
 	fmt.Println(testWithints.Members())
 	testWithstructs.Delete(Human{Name: "Vasya"})
 	fmt.Println(testWithstructs.Members())
+
+	test2WithInts := NewSet(12, 5, 123, 4234)
+	fmt.Println(test2WithInts.Members())
+
+	intersection := test2WithInts.Intersect(testWithints)
+	fmt.Println(intersection.Members())
 }
